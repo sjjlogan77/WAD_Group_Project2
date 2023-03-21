@@ -1,0 +1,89 @@
+{% extends 'rango/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+	HOMEPAGE
+{% endblock %}
+		
+
+
+{% block body_block %}
+
+		<form id="form"> 
+			<input type="search" id="query" name="q" placeholder="Search...">
+			<button>Search</button>
+		</form>
+
+
+		<h3>Quick Search Options</h3>
+    
+		<form id="quicksearch"> 
+			<button type="button" href="#az">Movies/TV shows A-Z</button>
+			<button type="button" href="#new">New Movies/TV shows</button>
+			<button type="button" href="#topm">Top movies of last year</button>
+			<button type="button" href="#toptv">Top TV shows of last year</button>
+			<button type="button" href="#worst">Worst Movies/TV shows</button>
+		</form>
+      
+		<h3>Popular Movies</h3>
+
+		<script>
+			let slideIndex = 1;
+			showSlides(slideIndex);
+
+			// Next/previous controls
+			function plusSlides(n) {
+				showSlides(slideIndex += n);
+			}
+
+			// Thumbnail image controls
+			function currentSlide(n) {
+				showSlides(slideIndex = n);
+			}
+
+			function showSlides(n) {
+				let i;
+				let slides = document.getElementsByClassName("mySlides");
+				let dots = document.getElementsByClassName("dot");
+				if (n > slides.length) {slideIndex = 1}
+				if (n < 1) {slideIndex = slides.length}
+				for (i = 0; i < slides.length; i++) {
+					slides[i].style.display = "none";
+				}
+				for (i = 0; i < dots.length; i++) {
+					dots[i].className = dots[i].className.replace(" active", "");
+				}
+				slides[slideIndex-1].style.display = "block";
+				dots[slideIndex-1].className += " active";
+			}
+
+		</script>
+    
+		<div>
+
+		{%if movies %}
+		<ul>
+		{%for movie in movies %}
+			<li>
+				<a href='/rango/movie/{{ movie.slug }}/'>{{ movie.title }}</a>
+			</li>
+		{%endfor%}
+		</ul>
+		{%else%}
+			<strong>There are no movies present.</strong>
+		{%endif%}
+
+		</div>
+
+		{% if user.is_authenticated %}
+		<a href="{% url 'rango:add_movie' %}">Add Movie</a>
+		{% endif %}
+
+
+		<h3>Popular TV Shows</h3>
+	
+		
+
+{% endblock %}
+
+

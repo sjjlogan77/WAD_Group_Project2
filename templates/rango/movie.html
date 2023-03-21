@@ -1,0 +1,32 @@
+{% extends 'rango/base.html' %}
+{% load staticfiles %}
+
+{% block title_block %}
+    {% if movie %}
+        {{ movie.title }}
+    {% else %}
+        Unknown Movie
+    {% endif %}
+{% endblock %}
+
+{% block body_block %}
+    {% if movie %}
+    <h1>{{ movie.title }}</h1>
+    <p>This movie was released in {{ movie.releaseDate }}</p>
+    {% if ratings %}
+    <h4>Current Ratings:</h4>
+    <ul>
+        {% for rating in ratings %}
+        <li>{{ rating.rating }}/10 by {{ rating.user }}</li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <strong>No ratings for current movie.</strong>
+    {% endif %}
+    {% if user.is_authenticated %}
+    <a href="{% url 'rango:add_rating' movie.slug %}">Add Rating</a> <br />
+    {% endif %}
+    {% else %}
+    The specified movie does not exist.
+    {% endif %}
+{% endblock %}

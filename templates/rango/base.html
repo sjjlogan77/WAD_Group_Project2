@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+
+<html>
+	<head>
+		<title>
+			{% block title_block %}
+				TVRatingSystem
+			{% endblock %}
+		</title>
+		<link rel="stylesheet" href="WAD.css">
+	</head>
+	<body>
+	
+		<div class="topnav">
+			<a>TV RATINGS</a>
+			{% if user.is_authenticated %}
+			Hi {{ user.username }}!
+			<a href="{% url 'rango:logout' %}">Logout</a>
+			{% else %}
+			<a href="{% url 'rango:login' %}">Login</a>
+			<a href="{% url 'rango:signup' %}">Sign Up</a>
+			{% endif %}
+			<a href="{% url 'rango:HOMEPAGE' %}">Home</a>
+		</div>
+	
+		<div>
+		{% block body_block %}
+		{% endblock %}
+		</div>
+
+	</body>
+</html>
